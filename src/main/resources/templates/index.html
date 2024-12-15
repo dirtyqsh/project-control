@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Работа подрядчика</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Учет работ подрядчика</h1>
+
+<p>
+    <a href="/project">Проекты</a> |
+    <a href="/subcontractor">Подрядчик</a> |
+    <a href="/worksubcontractor">Работа подрядчика</a>
+</p>
+
+<h2>Проекты</h2>
+
+<table border="1">
+    <tr>
+        <th>Название</th>
+        <th>Стоимость</th>
+        <th>Дата начала</th>
+        <th>Дата окончания</th>
+        <th>Статус</th>
+        <th>Подрядчики</th>
+    </tr>
+    <th:block th:each="project : ${projects}">
+        <tr>
+            <td th:text="${project.projectName}"></td>
+            <td th:text="${#numbers.formatDecimal(project.costInRubles, 0, 'COMMA', 2, 'POINT')} + ' ₽'"></td>
+            <td th:text="${project.projectStart}"></td>
+            <td th:text="${project.projectEnd}"></td>
+            <td th:text="${project.projectStatus == true ? 'Завершен' : 'В работе'}"></td>
+            <td>
+                <span th:if="${project.subcontractors != null}">
+                    <span th:each="subcontractor, iterStat : ${#strings.arraySplit(project.subcontractors, ',')}">
+                        <a th:href="@{/subcontractor/{id}(id=${iterStat.index})}" th:text="${subcontractor}"></a>
+                        <span th:if="${!iterStat.last}">, </span>
+                    </span>
+                </span>
+                <span th:if="${project.subcontractors == null}">Нет подрядчиков</span>
+            </td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>

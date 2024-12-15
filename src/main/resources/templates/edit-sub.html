@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать подрядчика</title>
+    <style>
+        select {
+            max-width: 100px;
+        }
+        form {
+            max-width: 400px;
+        }
+        input, textarea, select {
+            padding: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<h1>Редактировать подрядчика</h1>
+<form th:action="@{/subcontractor/update}" method="post">
+    <input type="hidden" th:value="${subcontractor.id}" name="id">
+
+    <label>Название:</label>
+    <input type="text" th:value="${subcontractor.name}" name="name" required><br>
+
+    <label>Страна:</label>
+    <input type="text" th:value="${subcontractor.country}" name="country" required><br>
+
+    <label>Адрес:</label>
+    <input type="text" th:value="${subcontractor.address}" name="address" required><br>
+
+    <label>Телефон:</label>
+    <input type="text" th:value="${subcontractor.phone}" name="phone" required><br>
+
+    <button type="submit">Обновить</button>
+</form>
+</body>
+</html>

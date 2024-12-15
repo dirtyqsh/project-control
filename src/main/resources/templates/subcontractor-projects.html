@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Проекты подрядчика</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+<header>
+    <h1>Проекты подрядчика</h1>
+    <h2 th:text="${subcontractorName}"></h2>
+</header>
+
+<section>
+    <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+        <tr>
+            <th>Название проекта</th>
+            <th>Стоимость</th>
+            <th>Дата начала</th>
+            <th>Дата окончания</th>
+            <th>Статус</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="project : ${projects}">
+            <td th:text="${project.projectName}"></td>
+            <td th:text="${#numbers.formatDecimal(project.costInRubles, 0, 'COMMA', 2, 'POINT')} + ' ₽'"></td>
+            <td th:text="${project.projectStart}"></td>
+            <td th:text="${project.projectEnd}"></td>
+            <td th:text="${project.projectStatus == true ? 'Завершен' : 'В работе'}"></td>
+        </tr>
+        <tr th:if="${projects.isEmpty()}">
+            <td colspan="5">У данного подрядчика нет проектов.</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<footer>
+    <a href="/" class="button">Вернуться на главную</a>
+</footer>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Управление работой подрядчика</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+        }
+        select {
+            max-width: 100px;
+        }
+        form {
+            max-width: 400px;
+        }
+        input, textarea, select {
+            padding: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<h1>Управление работой подрядчика</h1>
+
+<h2>Добавить новую работу</h2>
+<form th:action="@{/worksubcontractor/add}" method="post">
+    <label>Стоимость:</label>
+    <input type="number" name="cost" step="0.01" required><br>
+
+    <label>Дата начала:</label>
+    <input type="date" name="startDate" required><br>
+
+    <label>Дата окончания:</label>
+    <input type="date" name="endDate" required><br>
+
+    <label>Статус:</label>
+    <select name="status" required>
+        <option value="false">В работе</option>
+        <option value="true">Завершен</option>
+    </select><br>
+
+    <label>ID проекта:</label>
+    <input type="number" name="projectId" required><br>
+
+    <label>ID подрядчика:</label>
+    <input type="number" name="subcontractorId" required><br>
+
+    <button type="submit">Добавить</button>
+</form>
+
+<h2>Список работ подрядчиков</h2>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Стоимость</th>
+        <th>Дата начала</th>
+        <th>Дата окончания</th>
+        <th>Статус</th>
+        <th>ID проекта</th>
+        <th>ID подрядчика</th>
+        <th>Действия</th>
+    </tr>
+
+    <tr th:each="work : ${worksubcontractors}">
+        <td th:text="${work.id}"></td>
+        <td th:text="${work.cost / 100}"></td>
+        <td th:text="${work.startDate}"></td>
+        <td th:text="${work.endDate}"></td>
+        <td th:text="${work.status ? 'Завершен' : 'В работе'}"></td>
+        <td th:text="${work.project.name} + ' (' + ${work.project.id} + ')'"></td>
+        <td th:text="${work.subcontractor.name} + ' (' + ${work.subcontractor.id} + ')'"></td>
+        <td>
+            <a th:href="@{/worksubcontractor/edit/{id}(id=${work.id})}">Редактировать</a>
+            <a th:href="@{/worksubcontractor/delete/{id}(id=${work.id})}">Удалить</a>
+        </td>
+    </tr>
+</table>
+
+
+
+<a th:href="@{/}">Назад</a>
+</body>
+</html>
